@@ -1,9 +1,11 @@
 ﻿using BulkyWeb.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Bulky.DataAccess.Data
 {
-    public class ApplicationDBContext : DbContext
+    public class ApplicationDBContext : IdentityDbContext<IdentityUser>
     {
         public ApplicationDBContext(DbContextOptions<ApplicationDBContext> options) : base(options) 
         {
@@ -11,9 +13,12 @@ namespace Bulky.DataAccess.Data
         }
         public DbSet<Catogery> catogeries { get; set; }
         public DbSet<Product> products { get; set; }
+        public DbSet<ApplicationUsers> applicationUsers { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<Catogery>().HasData(
                 new Catogery { Id=1,Name="Action",DisplayOrder=1},
                 new Catogery { Id = 2, Name = "SciFi", DisplayOrder = 2 },
